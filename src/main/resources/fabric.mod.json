@@ -1,0 +1,54 @@
+{
+	"schemaVersion": 1,
+	"id": "meowmeals",
+	"version": "${version}",
+	"name": "MeowMeals",
+	"description": "This mod adds a variety of cat food items to Minecraft, enhancing the culinary experience for feline enthusiasts.",
+	"authors": [
+		"Akaalroop Singh"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/meowmeals/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "singh.akaalroop.meowmeals.MeowMeals",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "singh.akaalroop.meowmeals.MeowMealsClient",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "singh.akaalroop.meowmeals.MeowMealsDataGenerator",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"meowmeals.mixins.json",
+		{
+			"config": "meowmeals.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
