@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+        " C ",
+        " B "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:cooked_cod"
+        },
+        "C": {
+            "item": "minecraft:cooked_salmon"
+        },
+        "B": {
+            "item": "minecraft:bowl"
+        }
+    },
+    "result": {
+        "id": "meowmeals:fish_feast",
+        "count": 1
+    }
+}

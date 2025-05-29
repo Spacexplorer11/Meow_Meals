@@ -1,0 +1,26 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "   ",
+        "#CD",
+        " B "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:cooked_porkchop"
+        },
+        "C": {
+            "item": "minecraft:cooked_chicken"
+        },
+        "D": {
+            "item": "minecraft:cooked_beef"
+        },
+        "B": {
+            "item": "minecraft:bowl"
+        }
+    },
+    "result": {
+        "item": "meowmeals:meat_feast",
+        "count": 1
+    }
+}

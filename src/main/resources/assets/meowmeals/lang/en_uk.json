@@ -1,4 +1,8 @@
 {
   "item.meowmeals.cat_food_tin": "Cat Food Tin",
-  "itemGroup.meowmeals.meowmeals_group": "Meow Meals"
-}
+  "itemGroup.meowmeals.meowmeals_group": "Meow Meals",
+  "item.meowmeals.fish_feast": "Fish Feast",
+  "item.meowmeals.meat_feast": "Meat Feast",
+  "item.meowmeals.smoked_rabbit": "Smoked Rabbit",
+  "item.meowmeals.cat_food_tin.description": "A tin of cat food, perfect for feeding your feline friends. They love it!"
+  }
