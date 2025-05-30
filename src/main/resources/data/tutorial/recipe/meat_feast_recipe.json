@@ -20,7 +20,7 @@
         }
     },
     "result": {
-        "item": "meowmeals:meat_feast",
+        "id": "meowmeals:meat_feast",
         "count": 1
     }
 }

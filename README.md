@@ -33,7 +33,7 @@ Visit the [**Wiki**](https://github.com/Spacexplorer11/Meow_Meals/wiki) for:
 
 ## ⬇️ How to download?
 
-That's really easy! Just head over to my [modrinth mod page]() to download!  
+That's really easy! Just head over to my [Modrinth mod page](https://modrinth.com/mod/meow-meals) to download!  
 Or if you prefer, you can download the mod from the latest release [here!](https://github.com/spacexplorer11/meow_meals/releases/latest)    
 **If you download the mod directly, make sure to have the dependencies or it won't work!**
 
