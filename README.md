@@ -24,6 +24,7 @@ Visit the [**Wiki**](https://github.com/Spacexplorer11/Meow_Meals/wiki) for:
 ## 📦 Requirements to play
 
 - Minecraft 1.21  
+- Fabric Loader 0.16.4
 That's it!
 
 ---
