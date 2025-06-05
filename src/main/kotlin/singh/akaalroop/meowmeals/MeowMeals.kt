@@ -14,8 +14,9 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
 
+// This is all the code run when the mod is initialised
 object MeowMeals : ModInitializer {
-    private const val MOD_ID = "meowmeals"
+    const val MOD_ID: String = "meowmeals"
     private val logger = LoggerFactory.getLogger(MOD_ID)
     private val MEOWMEALS_GROUP = RegistryKey.of(
         RegistryKeys.ITEM_GROUP,
