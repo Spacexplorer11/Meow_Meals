@@ -20,12 +20,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static net.minecraft.sound.SoundEvents.ENTITY_CAT_EAT;
+import static singh.akaalroop.meowmeals.MeowMeals.MOD_ID;
 
 
 @Mixin(CatEntity.class)
 public abstract class CatEntityMixin {
-    @Unique
-    private static final String MOD_ID = "meowmeals"; // The mod ID, used for namespaces and paths
 
     @Unique
     private void sendMeowMealsMessage(PlayerEntity player, String text, Formatting colour) {
@@ -139,7 +138,7 @@ public abstract class CatEntityMixin {
                         player.getInventory().insertStack(new ItemStack(Items.BOWL));
                     }
                 }
-                cat.playSound(ENTITY_CAT_EAT);
+                cat.playSound(ENTITY_CAT_EAT, 1.0F, 1.0F);
                 cir.setReturnValue(ActionResult.SUCCESS);
             }
         }
