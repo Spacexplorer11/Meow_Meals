@@ -25,9 +25,7 @@ import static net.minecraft.sound.SoundEvents.ENTITY_CAT_EAT;
 @Mixin(CatEntity.class)
 public abstract class CatEntityMixin {
     @Unique
-    private static final String MOD_ID = "meowmeals";
-    @Unique
-    private static final String LOVE_MESSAGE = "Your cat is now in love mode! 🥰";
+    private static final String MOD_ID = "meowmeals"; // The mod ID, used for namespaces and paths
 
     @Unique
     private void sendMeowMealsMessage(PlayerEntity player, String text, Formatting colour) {
@@ -39,7 +37,7 @@ public abstract class CatEntityMixin {
 
     @Unique
     private void sendMeowMealsBreedingMessage(PlayerEntity player) {
-        sendMeowMealsMessage(player, LOVE_MESSAGE, Formatting.RED);
+        sendMeowMealsMessage(player, "Your cat is now in love mode! 🥰", Formatting.RED);
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
