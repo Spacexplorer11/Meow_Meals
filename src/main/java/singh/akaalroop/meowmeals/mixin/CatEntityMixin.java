@@ -14,7 +14,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -29,9 +28,6 @@ public abstract class CatEntityMixin {
     private static final String MOD_ID = "meowmeals";
     @Unique
     private static final String LOVE_MESSAGE = "Your cat is now in love mode! 🥰";
-
-    @Shadow
-    protected abstract void tryTame(PlayerEntity player);
 
     @Unique
     private void sendMeowMealsMessage(PlayerEntity player, String text, Formatting colour) {
@@ -82,10 +78,11 @@ public abstract class CatEntityMixin {
                     actioned = true;
                 } else if (!cat.isTamed()) {
                     cat.setOwner(player);
+                    cat.setSitting(true);
                     cat.getWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
-                    sendMeowMealsMessage(player, "Your cat liked that so much that it's now tamed! 🐱", Formatting.GREEN);
+                    sendMeowMealsMessage(player, "Your cat liked that so much that it's now tamed! 🐱", Formatting.YELLOW);
                     actioned = true;
-                } else if (!cat.isInLove()) {
+                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
                     cat.lovePlayer(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
@@ -96,10 +93,7 @@ public abstract class CatEntityMixin {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(5.0f);
                     actioned = true;
-                } else if (!cat.isTamed()) {
-                    tryTame(player);
-                    actioned = true;
-                } else if (!cat.isInLove()) {
+                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
                     cat.lovePlayer(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
@@ -113,10 +107,7 @@ public abstract class CatEntityMixin {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(8.0f);
                     actioned = true;
-                } else if (!cat.isTamed()) {
-                    tryTame(player);
-                    actioned = true;
-                } else if (!cat.isInLove()) {
+                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
                     cat.lovePlayer(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
@@ -131,10 +122,7 @@ public abstract class CatEntityMixin {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(4.0f);
                     actioned = true;
-                } else if (!cat.isTamed()) {
-                    tryTame(player);
-                    actioned = true;
-                } else if (!cat.isInLove()) {
+                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
                     cat.lovePlayer(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
