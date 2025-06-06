@@ -70,24 +70,12 @@ public abstract class CatEntityMixin {
 
     @Unique
     private Item getModItem(String path) {
-        Identifier id = Identifier.of(MOD_ID, path);
-        return getItemFromRegistry(id);
+        return Registries.ITEM.get(Identifier.of(MOD_ID, path));
     }
 
     @Unique
     private boolean isVanillaItem(ItemStack stack, String path) {
-        Identifier id = Identifier.of("minecraft", path);
-        return stack.isOf(getItemFromRegistry(id));
-    }
-
-    @Unique
-    private Item getItemFromRegistry(Identifier id) {
-        return getItemFromId(id);
-    }
-
-    @Unique
-    private Item getItemFromId(Identifier id) {
-        return getFromItemRegistry(id);
+        return stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", path)));
     }
 
     @Unique
@@ -101,11 +89,6 @@ public abstract class CatEntityMixin {
     }
 
     @Unique
-    private Item getFromItemRegistry(Identifier id) {
-        return getItemFromStaticRegistry(id);
-    }
-
-    @Unique
     private Style getGoldStyleBase() {
         return Style.EMPTY;
     }
@@ -113,11 +96,6 @@ public abstract class CatEntityMixin {
     @Unique
     private Style applyGoldFormatting(Style base) {
         return base.withColor(Formatting.GOLD);
-    }
-
-    @Unique
-    private Item getItemFromStaticRegistry(Identifier id) {
-        return Registries.ITEM.get(id);
     }
 
 
