@@ -5,6 +5,7 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
@@ -43,15 +44,34 @@ public abstract class CatEntityMixin {
 
     @Unique
     private void sendMeowMealsMessage(PlayerEntity player, String text, Formatting colour) {
-        MutableText message = Text.literal("[MeowMeals] ")
-                .formatted(Formatting.GOLD)
-                .append(Text.literal(text).formatted(colour));
-        player.sendMessage(message, false);
+        MutableText prefix = Text.literal("[MeowMeals] ");
+        prefix.formatted(Formatting.GOLD);
+
+        MutableText content = Text.literal(text);
+        content.formatted(colour);
+
+        prefix.append(content);
+        player.sendMessage(prefix, false);
     }
 
     @Unique
     private void sendMeowMealsBreedingMessage(PlayerEntity player) {
         sendMeowMealsMessage(player, "Your cat is now in love mode! 🥰", Formatting.RED);
+    }
+
+    @Unique
+    private boolean isModItem(ItemStack stack, String path) {
+        return stack.isOf(getModItem(path));
+    }
+
+    @Unique
+    private Item getModItem(String path) {
+        return Registries.ITEM.get(Identifier.of(MOD_ID, path));
+    }
+
+    @Unique
+    private boolean isVanillaItem(ItemStack stack, String path) {
+        return stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", path)));
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
@@ -63,13 +83,12 @@ public abstract class CatEntityMixin {
                 "smoked_rabbit"
         };
         for (String item : items) {
-            if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, item)))) {
+            if (isModItem(stack, item)) {
                 cir.setReturnValue(true);
                 return;
             }
         }
-        if (stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", "tropical_fish"))) ||
-                stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", "cooked_rabbit")))) {
+        if (isVanillaItem(stack, "tropical_fish") || isVanillaItem(stack, "cooked_rabbit")) {
             cir.setReturnValue(true);
         }
     }
@@ -84,7 +103,7 @@ public abstract class CatEntityMixin {
             boolean actioned = false;
 
             // Cat Food Tin
-            if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "cat_food_tin")))) {
+            if (isModItem(stack, "cat_food_tin")) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(6.0f);
                     actioned = true;
@@ -101,7 +120,7 @@ public abstract class CatEntityMixin {
                 }
 
                 // Fish Feast
-            } else if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "fish_feast")))) {
+            } else if (isModItem(stack, "fish_feast")) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(5.0f);
                     actioned = true;
@@ -115,7 +134,7 @@ public abstract class CatEntityMixin {
                     actioned = true;
                 }
                 // Meat Feast
-            } else if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "meat_feast")))) {
+            } else if (isModItem(stack, "meat_feast")) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(8.0f);
                     actioned = true;
@@ -130,7 +149,7 @@ public abstract class CatEntityMixin {
                 }
 
                 // Smoked Rabbit
-            } else if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "smoked_rabbit")))) {
+            } else if (isModItem(stack, "smoked_rabbit")) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(4.0f);
                     actioned = true;
@@ -148,8 +167,7 @@ public abstract class CatEntityMixin {
             if (actioned) {
                 if (!player.getAbilities().creativeMode) {
                     stack.decrement(1);
-                    if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "fish_feast")))
-                            || stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "meat_feast")))) {
+                    if (isModItem(stack, "fish_feast") || isModItem(stack, "meat_feast")) {
                         givePlayerBowl(player);
                     }
                 }
