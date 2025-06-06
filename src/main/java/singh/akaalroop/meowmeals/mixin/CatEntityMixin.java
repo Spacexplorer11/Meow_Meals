@@ -84,9 +84,15 @@ public abstract class CatEntityMixin {
     }
 
     @Unique
-    private MutableText appendText(MutableText prefix, MutableText content) {
-        return prefix.append(content);
-    }
+--- a/src/main/java/singh/akaalroop/meowmeals/mixin/CatEntityMixin.java
+@@ -99,7 +99,6 @@
+-    @Unique
+-    private MutableText appendText(MutableText prefix, MutableText content) {
+-        return prefix.append(content);
+-    }
+@@ -120,7 +119,7 @@
+-        return appendText(prefix, content);
++        return prefix.append(content);
 
     @Unique
     private Style getGoldStyleBase() {
