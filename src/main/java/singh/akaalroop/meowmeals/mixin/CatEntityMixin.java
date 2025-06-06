@@ -27,8 +27,8 @@ import static singh.akaalroop.meowmeals.MeowMeals.MOD_ID;
 public abstract class CatEntityMixin {
 
     @Unique
-    private boolean isClientWorld(CatEntity cat) {
-        return cat.getWorld().isClient();
+    private boolean isClientWorld() {
+        return ((CatEntity)(Object)this).getWorld().isClient();
     }
 
     @Unique
