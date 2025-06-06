@@ -27,12 +27,12 @@ import static singh.akaalroop.meowmeals.MeowMeals.MOD_ID;
 public abstract class CatEntityMixin {
 
     @Unique
-    private boolean isClientWorld() {
+    private boolean isClientSide() {
         return ((CatEntity)(Object)this).getWorld().isClient();
     }
 
     @Unique
-    private void sendPositiveReaction(CatEntity cat) {
+    private void sendPositiveReactionParticles(CatEntity cat) {
         cat.getWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
     }
 
@@ -80,7 +80,7 @@ public abstract class CatEntityMixin {
         ItemStack stack = player.getStackInHand(hand);
         CatEntity cat = (CatEntity) (Object) this;
 
-        if (!isClientWorld(cat)) {
+        if (!isClientSide()) {
             boolean actioned = false;
 
             // Cat Food Tin
@@ -91,7 +91,7 @@ public abstract class CatEntityMixin {
                 } else if (!cat.isTamed()) {
                     cat.setOwner(player);
                     cat.setSitting(true);
-                    sendPositiveReaction(cat);
+                    sendPositiveReactionParticles(cat);
                     sendMeowMealsMessage(player, "Your cat liked that so much that it's now tamed! 🐱", Formatting.YELLOW);
                     actioned = true;
                 } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
