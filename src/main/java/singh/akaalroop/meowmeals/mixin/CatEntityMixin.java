@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -52,7 +53,7 @@ public abstract class CatEntityMixin {
     private MutableText createMeowMealsMessage(String text, Formatting colour) {
         MutableText prefix = Text.literal("[MeowMeals] ");
         MutableText content = Text.literal(text);
-        prefix.setStyle(prefix.getStyle().withColor(Formatting.GOLD));
+        prefix.setStyle(createGoldStyle());
         content.setStyle(content.getStyle().withColor(colour));
         return prefix.append(content);
     }
@@ -81,7 +82,17 @@ public abstract class CatEntityMixin {
 
     @Unique
     private Item getItemFromRegistry(Identifier id) {
+        return getItemFromId(id);
+    }
+
+    @Unique
+    private Item getItemFromId(Identifier id) {
         return Registries.ITEM.get(id);
+    }
+
+    @Unique
+    private Style createGoldStyle() {
+        return Style.EMPTY.withColor(Formatting.GOLD);
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
