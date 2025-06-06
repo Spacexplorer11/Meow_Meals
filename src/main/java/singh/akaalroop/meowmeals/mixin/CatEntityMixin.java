@@ -55,7 +55,7 @@ public abstract class CatEntityMixin {
         MutableText content = Text.literal(text);
         prefix.setStyle(createGoldStyle());
         content.setStyle(content.getStyle().withColor(colour));
-        return prefix.append(content);
+        return appendText(prefix, content);
     }
 
     @Unique
@@ -87,12 +87,27 @@ public abstract class CatEntityMixin {
 
     @Unique
     private Item getItemFromId(Identifier id) {
-        return Registries.ITEM.get(id);
+        return getFromItemRegistry(id);
     }
 
     @Unique
     private Style createGoldStyle() {
-        return Style.EMPTY.withColor(Formatting.GOLD);
+        return getGoldStyleBase().withColor(Formatting.GOLD);
+    }
+
+    @Unique
+    private MutableText appendText(MutableText prefix, MutableText content) {
+        return prefix.append(content);
+    }
+
+    @Unique
+    private Item getFromItemRegistry(Identifier id) {
+        return Registries.ITEM.get(id);
+    }
+
+    @Unique
+    private Style getGoldStyleBase() {
+        return Style.EMPTY;
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
