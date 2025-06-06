@@ -92,7 +92,7 @@ public abstract class CatEntityMixin {
 
     @Unique
     private Style createGoldStyle() {
-        return getGoldStyleBase().withColor(Formatting.GOLD);
+        return applyGoldFormatting(getGoldStyleBase());
     }
 
     @Unique
@@ -102,13 +102,24 @@ public abstract class CatEntityMixin {
 
     @Unique
     private Item getFromItemRegistry(Identifier id) {
-        return Registries.ITEM.get(id);
+        return getItemFromStaticRegistry(id);
     }
 
     @Unique
     private Style getGoldStyleBase() {
         return Style.EMPTY;
     }
+
+    @Unique
+    private Style applyGoldFormatting(Style base) {
+        return base.withColor(Formatting.GOLD);
+    }
+
+    @Unique
+    private Item getItemFromStaticRegistry(Identifier id) {
+        return Registries.ITEM.get(id);
+    }
+
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
     private void isBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
