@@ -44,14 +44,17 @@ public abstract class CatEntityMixin {
 
     @Unique
     private void sendMeowMealsMessage(PlayerEntity player, String text, Formatting colour) {
+        MutableText message = createMeowMealsMessage(text, colour);
+        player.sendMessage(message, false);
+    }
+
+    @Unique
+    private MutableText createMeowMealsMessage(String text, Formatting colour) {
         MutableText prefix = Text.literal("[MeowMeals] ");
-        prefix.formatted(Formatting.GOLD);
-
         MutableText content = Text.literal(text);
-        content.formatted(colour);
-
-        prefix.append(content);
-        player.sendMessage(prefix, false);
+        prefix.setStyle(prefix.getStyle().withColor(Formatting.GOLD));
+        content.setStyle(content.getStyle().withColor(colour));
+        return prefix.append(content);
     }
 
     @Unique
@@ -66,12 +69,19 @@ public abstract class CatEntityMixin {
 
     @Unique
     private Item getModItem(String path) {
-        return Registries.ITEM.get(Identifier.of(MOD_ID, path));
+        Identifier id = Identifier.of(MOD_ID, path);
+        return getItemFromRegistry(id);
     }
 
     @Unique
     private boolean isVanillaItem(ItemStack stack, String path) {
-        return stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", path)));
+        Identifier id = Identifier.of("minecraft", path);
+        return stack.isOf(getItemFromRegistry(id));
+    }
+
+    @Unique
+    private Item getItemFromRegistry(Identifier id) {
+        return Registries.ITEM.get(id);
     }
 
     @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
