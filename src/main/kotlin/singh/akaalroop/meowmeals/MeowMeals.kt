@@ -14,8 +14,14 @@ import net.minecraft.text.Text
 import net.minecraft.util.Identifier
 import org.slf4j.LoggerFactory
 
-// This is all the code run when the mod is initialised
+/**
+ * Main mod initializer for MeowMeals.
+ * Handles registration of items and item groups.
+ */
 object MeowMeals : ModInitializer {
+    /**
+     * The unique identifier for the MeowMeals mod.
+     */
     const val MOD_ID: String = "meowmeals"
     private val logger = LoggerFactory.getLogger(MOD_ID)
     private val MEOWMEALS_GROUP = RegistryKey.of(
