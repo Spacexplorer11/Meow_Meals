@@ -20,6 +20,8 @@ Huge thanks to the Hackclub team for inspiring me to make something purr-fect ðŸ
 ### [Github](https://github.com/spacexplorer11/meow_meals/releases/latest) Downloads
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/spacexplorer11/meow_meals/total)
 
+### Time Spent
+![Hackatime Badge](https://hackatime-badge.hackclub.com/U08D22QNUVD/meowmeals-1.21)
 ---
 
 ## ðŸ“– Learn More
