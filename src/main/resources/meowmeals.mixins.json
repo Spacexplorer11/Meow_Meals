@@ -3,8 +3,7 @@
   "package": "singh.akaalroop.meowmeals.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-	  "CatEntityMixin",
-	  "ExampleMixin"
+    "CatEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
