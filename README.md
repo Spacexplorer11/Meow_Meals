@@ -1,12 +1,21 @@
 # 🐱 Meow Meals
 
+![GitHub last commit](https://img.shields.io/github/last-commit/spacexplorer11/meow_meals?color=blue)    ![GitHub License](https://img.shields.io/github/license/spacexplorer11/meow_meals?color=darkgreen)  ![Modrinth Game Versions](https://img.shields.io/modrinth/game-versions/sVLmG6J3?color=green)  ![Modrinth Followers](https://img.shields.io/modrinth/followers/sVLmG6J3)  ![Modrinth Version](https://img.shields.io/modrinth/v/sVLmG6J3?color=orange)
+![Made with love](https://img.shields.io/badge/Made_with-❤️-red)
+
 **Meow Meals** is a lightweight Minecraft mod for **Fabric 1.21** that adds new custom **cat-only foods** to the game!  
 No more boring raw cod—pamper your cats with delicious meals crafted just for them. 🐟🥩✨
 
 All item textures were hand-drawn using [Blockbench](https://www.blockbench.net/), and the mod was proudly built with [Fabric Kotlin](https://fabricmc.net/) ❤️
 
 This mod was originally created for the [Hackclub Hackcraft Event](https://hackcraft.hackclub.com/)!  
-Huge thanks to the Hackclub team for inspiring me to make something purr-fect 🐾
+Huge thanks to the Hackclub team for inspiring me to make something purr-fect 🐾  
+<a style="cursor: pointer;" href="https://modrinth.com/mod/meow-meals">
+  <picture>
+    <source srcset="https://raw.githubusercontent.com/gabrielvicenteYT/modrinth-icons/main/Branding/Badge/badge-dark.svg" media="(prefers-color-scheme: dark)">
+    <img src="https://raw.githubusercontent.com/gabrielvicenteYT/modrinth-icons/main/Branding/Badge/badge-light.svg" alt="Modrinth Download Badge">
+  </picture>
+</a>
 
 ---
 ## 📊 Stats
@@ -49,6 +58,7 @@ Visit the [**Wiki**](https://github.com/Spacexplorer11/Meow_Meals/wiki) for:
 
 That's really easy! Just head over to my [Modrinth mod page](https://modrinth.com/mod/meow-meals) or [Curseforge mod page](https://www.curseforge.com/minecraft/mc-mods/meowmeals) to download!  
 Or if you prefer, you can download the mod from the latest release [here!](https://github.com/spacexplorer11/meow_meals/releases/latest). Just download the linked `meowmeals-x.x.x.jar` file.    
-**If you download the mod directly, make sure to have the dependencies or it won't work!**
+>[!Warning]
+> **If you download the mod directly, make sure to have the dependencies or it won't work!**
 
 Made with ❤️ and too many test worlds.
