@@ -1,10 +1,109 @@
 pluginManagement {
+	def isCI = System.getenv("CI") != null
 	repositories {
+		gradlePluginPortal()
+		if (!isCI) {
+			maven {
+				name = 'Fabric'
+				url = uri("http://raspberrypi.local:8080/Fabric")
+				allowInsecureProtocol = true
+			}
+			maven {
+				name = "MavenCentral"
+				url = uri("http://raspberrypi.local:8080/Maven-Central")
+				allowInsecureProtocol = true
+			}
+			maven {
+				name = "piREI"
+				url = uri("http://raspberrypi.local:8080/REI")
+				allowInsecureProtocol = true
+			}
+		} else {
+			mavenCentral()
+			maven {
+				name = "Fabric"
+				url = uri("https://maven.fabricmc.net")
+			}
+		}
+		maven {
+			url = "https://maven.kikugie.dev/snapshots"
+			name = "KikuGie Snapshots"
+		}
+	}
+}
+
+plugins {
+	id("dev.kikugie.stonecutter").version "0.9"
+}
+
+dependencyResolutionManagement {
+	def isCI = System.getenv("CI") != null
+	repositories {
+		maven {
+			name = "Mojang"
+			url = "https://libraries.minecraft.net"
+			content {
+				includeGroup "org.lwjgl"
+				includeGroup "net.minecraft"
+				includeGroup "com.mojang"
+			}
+		}
+		if (!isCI) {
+			maven {
+				name = "piFabric"
+				url = uri("http://raspberrypi.local:8080/Fabric")
+				allowInsecureProtocol = true
+				content {
+					includeGroupByRegex "net\\.fabricmc.*"
+				}
+			}
+			maven {
+				name = "piREI"
+				url = uri("http://raspberrypi.local:8080/REI")
+				allowInsecureProtocol = true
+				content {
+					includeGroupByRegex "me\\.shedaniel.*"
+					includeGroupByRegex "dev\\.architectury.*"
+				}
+			}
+			maven {
+				name = "piMavenCentral"
+				url = uri("http://raspberrypi.local:8080/Maven-Central")
+				allowInsecureProtocol = true
+			}
+		}
 		maven {
 			name = 'Fabric'
 			url = 'https://maven.fabricmc.net/'
 		}
+		maven { url = "https://maven.shedaniel.me" }
 		mavenCentral()
-		gradlePluginPortal()
+
+		maven {
+			name = "LoomRemappedMods"
+			url = uri(".gradle/loom-cache/remapped_mods")
+			content {
+				includeGroupByRegex "remapped.*"
+			}
+		}
+		maven {
+			name = "LoomMinecraftStuff"
+			url = uri(".gradle/loom-cache/minecraftMaven")
+			content {
+				includeGroupByRegex "net.minecraft.*"
+			}
+		}
+	}
+	repositoriesMode = RepositoriesMode.PREFER_SETTINGS
+}
+
+stonecutter {
+	kotlinController = false
+	centralScript = "build.gradle"
+
+	// Configuration goes here
+	create(getRootProject()) {
+		versions "1.21"
+		vcsVersion = "1.21"
 	}
 }
