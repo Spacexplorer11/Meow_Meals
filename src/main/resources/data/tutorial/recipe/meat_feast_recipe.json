@@ -6,18 +6,10 @@
         " B "
     ],
     "key": {
-        "#": {
-            "item": "minecraft:cooked_porkchop"
-        },
-        "C": {
-            "item": "minecraft:cooked_chicken"
-        },
-        "D": {
-            "item": "minecraft:cooked_beef"
-        },
-        "B": {
-            "item": "minecraft:bowl"
-        }
+        "#": "minecraft:cooked_porkchop",
+        "C": "minecraft:cooked_chicken",
+        "D": "minecraft:cooked_beef",
+        "B": "minecraft:bowl"
     },
     "result": {
         "id": "meowmeals:meat_feast",

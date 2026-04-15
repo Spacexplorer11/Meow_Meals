@@ -1,8 +1,6 @@
 {
     "type": "minecraft:smoking",
-    "ingredient": {
-        "item": "minecraft:cooked_rabbit"
-    },
+    "ingredient": "minecraft:cooked_rabbit",
     "result": {
         "id": "meowmeals:smoked_rabbit"
     },
