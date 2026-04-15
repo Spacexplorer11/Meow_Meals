@@ -44,8 +44,8 @@ public abstract class CatEntityMixin {
         String[] items = {
                 "cat_food_tin",
                 "fish_feast",
-                "meat_feast.json",
-                "smoked_rabbit.json"
+                "meat_feast",
+                "smoked_rabbit"
         };
         for (String item : items) {
             if (itemStack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, item)))) {
@@ -62,7 +62,7 @@ public abstract class CatEntityMixin {
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void onMobInteract(Player player, net.minecraft.world.InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        ItemStack stack = player.getItemInHand(hand);
+        ItemStack stack = player.getActiveItem();
         Cat cat = (Cat) (Object) this;
 
         if (!cat.level().isClientSide()) {
@@ -100,7 +100,7 @@ public abstract class CatEntityMixin {
                     actioned = true;
                 }
                 // Meat Feast
-            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast.json")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(8.0f);
                     actioned = true;
@@ -115,7 +115,7 @@ public abstract class CatEntityMixin {
                 }
 
                 // Smoked Rabbit
-            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "smoked_rabbit.json")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "smoked_rabbit")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(4.0f);
                     actioned = true;
@@ -131,10 +131,10 @@ public abstract class CatEntityMixin {
             }
 
             if (actioned) {
-                if (!player.getAbilities().instabuild) {
+                if (!player.isCreative()) {
                     stack.shrink(1);
                     if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "fish_feast")))
-                            || stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast.json")))) {
+                            || stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast")))) {
                         player.getInventory().add(new ItemStack(Items.BOWL));
                     }
                 }
