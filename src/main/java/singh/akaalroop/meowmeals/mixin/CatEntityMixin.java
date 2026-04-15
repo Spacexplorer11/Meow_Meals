@@ -1,46 +1,46 @@
 package singh.akaalroop.meowmeals.mixin;
 
-import net.minecraft.entity.EntityStatuses;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.Registries;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.Identifier;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityEvent;
+import net.minecraft.world.entity.animal.feline.Cat;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static net.minecraft.sound.SoundEvents.ENTITY_CAT_EAT;
 import static singh.akaalroop.meowmeals.MeowMeals.MOD_ID;
 
 
-@Mixin(CatEntity.class)
+@Mixin(Cat.class)
 public abstract class CatEntityMixin {
 
     @Unique
-    private void sendMeowMealsMessage(PlayerEntity player, String text, Formatting colour) {
-        MutableText message = Text.literal("[MeowMeals] ")
-                .formatted(Formatting.GOLD)
-                .append(Text.literal(text).formatted(colour));
-        player.sendMessage(message, false);
+    private void sendMeowMealsMessage(Player player, String text, ChatFormatting colour) {
+        MutableComponent message = Component.literal("[MeowMeals] ")
+                .withStyle(ChatFormatting.GOLD)
+                .append(Component.literal(text).withStyle(colour));
+        player.sendSystemMessage(message);
     }
 
     @Unique
-    private void sendMeowMealsBreedingMessage(PlayerEntity player) {
-        sendMeowMealsMessage(player, "Your cat is now in love mode! 🥰", Formatting.RED);
+    private void sendMeowMealsBreedingMessage(Player player) {
+        sendMeowMealsMessage(player, "Your cat is now in love mode! 🥰", ChatFormatting.RED);
     }
 
-    @Inject(method = "isBreedingItem", at = @At("HEAD"), cancellable = true)
-    private void isBreedingItem(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
+    @Inject(method = "isFood", at = @At("HEAD"), cancellable = true)
+    private void isFood(ItemStack itemStack, CallbackInfoReturnable<Boolean> cir) {
         String[] items = {
                 "cat_food_tin",
                 "fish_feast",
@@ -48,106 +48,98 @@ public abstract class CatEntityMixin {
                 "smoked_rabbit"
         };
         for (String item : items) {
-            if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, item)))) {
+            if (itemStack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, item)))) {
                 cir.setReturnValue(true);
                 return;
             }
         }
-        if (stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", "tropical_fish"))) ||
-                stack.isOf(Registries.ITEM.get(Identifier.of("minecraft", "cooked_rabbit")))) {
+        if (itemStack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("minecraft", "tropical_fish"))) ||
+                itemStack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath("minecraft", "cooked_rabbit")))) {
             cir.setReturnValue(true);
         }
     }
 
 
-    @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
-    private void onInteractMob(PlayerEntity player, net.minecraft.util.Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        ItemStack stack = player.getStackInHand(hand);
-        CatEntity cat = (CatEntity) (Object) this;
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    private void onMobInteract(Player player, net.minecraft.world.InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+        ItemStack stack = player.getItemInHand(hand);
+        Cat cat = (Cat) (Object) this;
 
-        //? if >= 1.21.9 {
-        /*if (!cat.getEntityWorld().isClient()) {
-         *///? } else {
-        if (!cat.getWorld().isClient()) {
-            //? }
+        if (!cat.level().isClientSide()) {
             boolean actioned = false;
 
             // Cat Food Tin
-            if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "cat_food_tin")))) {
+            if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "cat_food_tin")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(6.0f);
                     actioned = true;
-                } else if (!cat.isTamed()) {
-                    cat.setOwner(player);
-                    cat.setSitting(true);
-                    //? if >= 1.21.9 {
-                    /*cat.getEntityWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
-                     *///? } else {
-                    cat.getWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
-                    //? }
-                    sendMeowMealsMessage(player, "Your cat liked that so much that it's now tamed! 🐱", Formatting.YELLOW);
+                } else if (!cat.isTame()) {
+                    cat.tame(player);
+                    cat.setOrderedToSit(true);
+                    cat.level().broadcastEntityEvent(cat, EntityEvent.TAMING_SUCCEEDED);
+                    sendMeowMealsMessage(player, "Your cat liked that so much that it's now tamed! 🐱", ChatFormatting.YELLOW);
                     actioned = true;
-                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
-                    cat.lovePlayer(player);
+                } else if (cat.isTame() && !cat.isInLove() && cat.getAge() == 0) {
+                    cat.setInLove(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
                 }
 
                 // Fish Feast
-            } else if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "fish_feast")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "fish_feast")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(5.0f);
                     actioned = true;
-                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
-                    cat.lovePlayer(player);
+                } else if (cat.isTame() && !cat.isInLove() && cat.getAge() == 0) {
+                    cat.setInLove(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
-                } else if (!cat.hasStatusEffect(StatusEffects.SPEED)) {
-                    cat.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 400, 0));
-                    sendMeowMealsMessage(player, "Your cat feels energised! ✨", Formatting.GREEN);
+                } else if (!cat.hasEffect(MobEffects.SPEED)) {
+                    cat.addEffect(new MobEffectInstance(MobEffects.SPEED, 400, 0));
+                    sendMeowMealsMessage(player, "Your cat feels energised! ✨", ChatFormatting.GREEN);
                     actioned = true;
                 }
                 // Meat Feast
-            } else if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "meat_feast")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(8.0f);
                     actioned = true;
-                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
-                    cat.lovePlayer(player);
+                } else if (cat.isTame() && !cat.isInLove() && cat.getAge() == 0) {
+                    cat.setInLove(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
-                } else if (!cat.hasStatusEffect(StatusEffects.SATURATION)) {
-                    cat.addStatusEffect(new StatusEffectInstance(StatusEffects.SATURATION, 400, 0));
-                    sendMeowMealsMessage(player, "Your cat feels more full! 😋", Formatting.GREEN);
+                } else if (!cat.hasEffect(MobEffects.SATURATION)) {
+                    cat.addEffect(new MobEffectInstance(MobEffects.SATURATION, 400, 0));
+                    sendMeowMealsMessage(player, "Your cat feels more full! 😋", ChatFormatting.GREEN);
                     actioned = true;
                 }
 
                 // Smoked Rabbit
-            } else if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "smoked_rabbit")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "smoked_rabbit")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(4.0f);
                     actioned = true;
-                } else if (cat.isTamed() && !cat.isInLove() && cat.getBreedingAge() == 0) {
-                    cat.lovePlayer(player);
+                } else if (cat.isTame() && !cat.isInLove() && cat.getAge() == 0) {
+                    cat.setInLove(player);
                     sendMeowMealsBreedingMessage(player);
                     actioned = true;
-                } else if (!cat.hasStatusEffect(StatusEffects.JUMP_BOOST)) {
-                    cat.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 400, 0));
-                    sendMeowMealsMessage(player, "Your cat feels bouncier, like a rabbit! 🐇", Formatting.GREEN);
+                } else if (!cat.hasEffect(MobEffects.JUMP_BOOST)) {
+                    cat.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, 400, 0));
+                    sendMeowMealsMessage(player, "Your cat feels bouncier, like a rabbit! 🐇", ChatFormatting.GREEN);
                     actioned = true;
                 }
             }
 
             if (actioned) {
-                if (!player.getAbilities().creativeMode) {
-                    stack.decrement(1);
-                    if (stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "fish_feast")))
-                            || stack.isOf(Registries.ITEM.get(Identifier.of(MOD_ID, "meat_feast")))) {
-                        player.getInventory().insertStack(new ItemStack(Items.BOWL));
+                if (!player.getAbilities().instabuild) {
+                    stack.shrink(1);
+                    if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "fish_feast")))
+                            || stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast")))) {
+                        player.getInventory().add(new ItemStack(Items.BOWL));
                     }
                 }
-                cat.playSound(ENTITY_CAT_EAT, 1.0F, 1.0F);
-                cir.setReturnValue(ActionResult.SUCCESS);
+                cat.playSound(SoundEvents.CAT_EAT_BABY.value(), 1.0F, 1.0F);
+                cir.setReturnValue(InteractionResult.SUCCESS);
             }
         }
     }
