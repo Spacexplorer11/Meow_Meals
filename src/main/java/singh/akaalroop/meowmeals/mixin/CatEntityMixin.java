@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static singh.akaalroop.meowmeals.MeowMeals.MOD_ID;
+import static singh.akaalroop.meowmeals.MeowMealsConstants.MOD_ID;
 
 
 @Mixin(Cat.class)
