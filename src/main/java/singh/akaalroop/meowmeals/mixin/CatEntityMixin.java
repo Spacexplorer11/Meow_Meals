@@ -44,8 +44,8 @@ public abstract class CatEntityMixin {
         String[] items = {
                 "cat_food_tin",
                 "fish_feast",
-                "meat_feast",
-                "smoked_rabbit"
+                "meat_feast.json",
+                "smoked_rabbit.json"
         };
         for (String item : items) {
             if (itemStack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, item)))) {
@@ -100,7 +100,7 @@ public abstract class CatEntityMixin {
                     actioned = true;
                 }
                 // Meat Feast
-            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast.json")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(8.0f);
                     actioned = true;
@@ -115,7 +115,7 @@ public abstract class CatEntityMixin {
                 }
 
                 // Smoked Rabbit
-            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "smoked_rabbit")))) {
+            } else if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "smoked_rabbit.json")))) {
                 if (cat.getHealth() < cat.getMaxHealth()) {
                     cat.heal(4.0f);
                     actioned = true;
@@ -134,7 +134,7 @@ public abstract class CatEntityMixin {
                 if (!player.getAbilities().instabuild) {
                     stack.shrink(1);
                     if (stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "fish_feast")))
-                            || stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast")))) {
+                            || stack.is(BuiltInRegistries.ITEM.getValue(Identifier.fromNamespaceAndPath(MOD_ID, "meat_feast.json")))) {
                         player.getInventory().add(new ItemStack(Items.BOWL));
                     }
                 }
