@@ -59,15 +59,14 @@ Visit the [**Wiki**](https://github.com/Spacexplorer11/Meow_Meals/wiki) for:
 - That's it!
 
 (If you want to use a different version, please use one of the links to my mod pages below)
+
 ---
 
 ## ⬇️ How to download?
 
 That's really easy! Just head over to my [Modrinth mod page](https://modrinth.com/project/sVLmG6J3)
 or [Curseforge mod page](https://www.curseforge.com/minecraft/mc-mods/meowmeals) to download!  
-Or if you prefer, you can download the mod from the latest
-release [here!](https://github.com/spacexplorer11/meow_meals/releases/latest). Just download the linked
-`meowmeals-x.x.x.jar` file.
+Or if you prefer, you can download the mod from the latest release [here!](https://github.com/spacexplorer11/meow_meals/releases/latest). Just download the linked `meowmeals-x.x.x.jar` file. (deprecated method, you can only download up to 1.0.2 for 1.21 here. Please check my mod pages for other versions) 
 >[!Warning]
 > **If you download the mod directly, make sure to have the dependencies or it won't work!**
 
