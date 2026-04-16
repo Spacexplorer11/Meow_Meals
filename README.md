@@ -3,6 +3,8 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/spacexplorer11/meow_meals?color=blue)    ![GitHub License](https://img.shields.io/github/license/spacexplorer11/meow_meals?color=darkgreen)  ![Modrinth Game Versions](https://img.shields.io/modrinth/game-versions/sVLmG6J3?color=green)  ![Modrinth Followers](https://img.shields.io/modrinth/followers/sVLmG6J3)  ![Modrinth Version](https://img.shields.io/modrinth/v/sVLmG6J3?color=orange)
 ![Made with love](https://img.shields.io/badge/Made_with-❤️-red)
 
+[Watch Demo](https://youtu.be/02-HrM9J4-Q)
+
 **Meow Meals** is a lightweight Minecraft mod for **Fabric 1.21(.x) & 26.1(.x)** that adds new custom **cat-only foods**
 to the game!  
 No more boring raw cod, instead pamper your cats with delicious meals crafted just for them. 🐟🥩✨
@@ -59,6 +61,9 @@ Visit the [**Wiki**](https://github.com/Spacexplorer11/Meow_Meals/wiki) for:
 (If you want to use a different version, please use one of the links to my mod pages below)
 
 ---
+
+>[!Warning]
+> Curseforge doesn't have my latest versions as I am now only using Modrinth as my main mod page.
 
 ## ⬇️ How to download?
 
