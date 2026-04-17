@@ -3,23 +3,23 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id("net.fabricmc.fabric-loom-remap") version "1.16-SNAPSHOT"
-	maven - publish
+	id("maven-publish")
 	id("org.jetbrains.kotlin.jvm") version "2.3.0"
 	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22"
 }
 
 // These lines make the mod filename `{mod.id}-${mod.version}+${sc.current.version}.jar`
 version = "${property("mod.version")}+${sc.current.version}"
-base.archivesName = property("mod.id") as String
+val archivesName = property("mod.id") as String
 group = property("maven_group") as String
 
 loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"meowmeals" {
-			sourceSet(sourceSets.main)
-			sourceSet(sourceSets.client)
+		create("meowmeals") {
+			sourceSet(sourceSets.getByName("main"))
+			sourceSet(sourceSets.getByName("client"))
 		}
 	}
 
@@ -52,7 +52,7 @@ tasks.withType<JavaCompile>().configureEach {
 	options.release = 21
 }
 
-tasks.withType(KotlinCompile).configureEach {
+tasks.withType<KotlinCompile>().configureEach {
 	compilerOptions {
 		jvmTarget = JvmTarget.JVM_21
 	}
@@ -68,10 +68,8 @@ java {
 }
 
 tasks.named<Jar>("jar") {
-	inputs.property("archivesName", base.archivesName)
-
 	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}"}
+		rename { "${it}_${archivesName}" }
 	}
 }
 
@@ -81,7 +79,7 @@ tasks.named("processResources") {
 
 tasks.register<Copy>("buildAndCollect") {
 	group = "build"
-	from(jar.map { it.archiveFile })
+	from(tasks.jar.map { it.archiveFile })
 	into(rootProject.layout.buildDirectory.file("libs/${property("mod.version")}"))
 	dependsOn("build")
 }
@@ -101,6 +99,6 @@ tasks.named<ProcessResources>("processResources") {
 
 fletchingTable {
 	j52j.register("main") {
-		extension("json", "data/meowmeals/recipes/**/*.json5")
+		extension("json", "data/meowmeals/recipe/*.json5")
 	}
 }
