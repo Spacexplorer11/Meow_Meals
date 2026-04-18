@@ -78,11 +78,16 @@ public abstract class CatEntityMixin {
                     cat.heal(6.0f);
                     actioned = true;
                 } else if (!cat.isTamed()) {
-                    cat.setOwner(player);
-                    cat.setSitting(true);
-                    //? if >= 1.21.9 {
-                    /*cat.getEntityWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
+                    cat.setTamed(true, true);
+                    //? if >=1.21.9 {
+                    /*cat.setTamedBy(player);
                      *///? } else {
+                    cat.setOwner(player);
+                    //? }
+                    //? if >= 1.21.9 {
+                    /*cat.getEntityWorld().sendEntityStatus(cat, (byte) 7);
+                    /^cat.getEntityWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
+                     ^/*///? } else {
                     cat.getWorld().sendEntityStatus(cat, EntityStatuses.ADD_POSITIVE_PLAYER_REACTION_PARTICLES);
                     //? }
                     sendMeowMealsMessage(player, "Your cat liked that so much that it's now tamed! 🐱", Formatting.YELLOW);
