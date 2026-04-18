@@ -42,13 +42,13 @@
     }
   ],
   "depends": {
-    "fabricloader": "*",
+    "fabricloader": "0.19.1",
     "minecraft": "${minecraft_version}",
     "java": ">=21",
-    "fabric-api": "*",
-    "fabric-language-kotlin": "*"
+    "fabric-api": "${fabric_api_version}",
+    "fabric-language-kotlin": "1.13.10+kotlin.2.3.20"
   },
   "suggests": {
-    "another-mod": "*"
+    "roughly-enough-items": "${rei_version}"
   }
 }

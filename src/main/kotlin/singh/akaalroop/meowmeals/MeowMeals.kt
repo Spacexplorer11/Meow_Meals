@@ -32,6 +32,35 @@ object MeowMeals : ModInitializer {
     override fun onInitialize() {
         logger.info("Initializing MeowMeals Mod")
 
+        //? if >=1.21.2 {
+        /*val catFoodTinKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "cat_food_tin"))
+        val catFoodTin = Registry.register(
+            Registries.ITEM,
+            Identifier.of(MOD_ID, "cat_food_tin"),
+            Item(Item.Settings().registryKey(catFoodTinKey))
+        )
+
+        val fishFeastKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "fish_feast"))
+        val fishFeast = Registry.register(
+            Registries.ITEM,
+            Identifier.of(MOD_ID, "fish_feast"),
+            Item(Item.Settings().registryKey(fishFeastKey))
+        )
+
+        val meatFeastKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "meat_feast"))
+        val meatFeast = Registry.register(
+            Registries.ITEM,
+            Identifier.of(MOD_ID, "meat_feast"),
+            Item(Item.Settings().registryKey(meatFeastKey))
+        )
+
+        val smokedRabbitKey = RegistryKey.of(RegistryKeys.ITEM, Identifier.of(MOD_ID, "smoked_rabbit"))
+        val smokedRabbit = Registry.register(
+            Registries.ITEM,
+            Identifier.of(MOD_ID, "smoked_rabbit"),
+            Item(Item.Settings().registryKey(smokedRabbitKey))
+        )
+        *///? } else {
         val catFoodTin = Registry.register(
             Registries.ITEM,
             Identifier.of(MOD_ID, "cat_food_tin"),
@@ -55,6 +84,8 @@ object MeowMeals : ModInitializer {
             Identifier.of(MOD_ID, "smoked_rabbit"),
             Item(Item.Settings())
         )
+
+        //? }
 
         Registry.register(
             Registries.ITEM_GROUP,

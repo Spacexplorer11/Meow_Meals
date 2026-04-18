@@ -5,12 +5,11 @@ plugins {
 	id("net.fabricmc.fabric-loom-remap") version "1.16-SNAPSHOT"
 	id("maven-publish")
 	id("org.jetbrains.kotlin.jvm") version "2.3.0"
-	id("dev.kikugie.fletching-table.fabric") version "0.1.0-alpha.22"
 }
 
 // These lines make the mod filename `{mod.id}-${mod.version}+${sc.current.version}.jar`
 version = "${property("mod.version")}+${sc.current.version}"
-val archivesName = property("mod.id") as String
+base.archivesName = property("mod.id") as String
 group = property("maven_group") as String
 
 loom {
@@ -67,9 +66,14 @@ java {
 	targetCompatibility = JavaVersion.VERSION_21
 }
 
+tasks.named<Jar>("sourcesJar") {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.named<Jar>("jar") {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	from("LICENSE") {
-		rename { "${it}_${archivesName}" }
+		rename { "${it}_${base.archivesName}" }
 	}
 }
 
@@ -79,26 +83,24 @@ tasks.named("processResources") {
 
 tasks.register<Copy>("buildAndCollect") {
 	group = "build"
-	from(tasks.jar.map { it.archiveFile })
-	into(rootProject.layout.buildDirectory.file("libs/${property("mod.version")}"))
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	from(tasks.remapJar.map { it.archiveFile })
+	into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
 	dependsOn("build")
 }
 
 tasks.named<ProcessResources>("processResources") {
+	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 	inputs.property("minecraft_version", stonecutter.current.version)
 	inputs.property("version", version)
 	filesMatching("fabric.mod.json") {
 		expand(
 			mapOf(
 				"minecraft_version" to stonecutter.current.version,
-				"version" to version
+				"version" to version,
+				"rei_version" to project.property("deps.rei"),
+				"fabric_api_version" to project.property("deps.fabric_api"),
 			)
 		)
-	}
-}
-
-fletchingTable {
-	j52j.register("main") {
-		extension("json", "data/meowmeals/recipe/*.json5")
 	}
 }
