@@ -5,6 +5,7 @@ plugins {
 	id("net.fabricmc.fabric-loom-remap") version "1.16-SNAPSHOT"
 	id("maven-publish")
 	id("org.jetbrains.kotlin.jvm") version "2.3.0"
+	id("me.modmuss50.mod-publish-plugin") version "0.8.4"
 }
 
 // These lines make the mod filename `{mod.id}-${mod.version}+${sc.current.version}.jar`
@@ -102,5 +103,25 @@ tasks.named<ProcessResources>("processResources") {
 				"fabric_api_version" to project.property("deps.fabric_api"),
 			)
 		)
+	}
+}
+
+publishMods {
+	file = tasks.remapJar.map { it.archiveFile.get() }
+	additionalFiles.from(tasks.named<Jar>("sourcesJar").map { it.archiveFile.get() })
+	type = STABLE
+	displayName = "v${property("mod.version")} for mc ${stonecutter.current.version}"
+	version = "${property("mod.version")}+${stonecutter.current.version}"
+	changelog = provider { rootProject.file("CHANGELOG.md").readText() }
+	modLoaders.add("fabric")
+	dryRun = false
+
+	modrinth {
+		projectId = "sVLmG6J3"
+		accessToken = providers.environmentVariable("MODRINTH_API_KEY")
+		minecraftVersions.add(stonecutter.current.version)
+		requires("fabric-api")
+		requires("fabric-language-kotlin")
+		optional("rei")
 	}
 }
