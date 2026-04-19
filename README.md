@@ -33,10 +33,10 @@ Huge thanks to the Hackclub team for inspiring me to make something purr-fect ðŸ
 ![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/spacexplorer11/meow_meals/total)
 
 ### Time Spent
-Spent for the initial mod (1.21):  
-![Hackatime Badge](https://hackatime-badge.hackclub.com/U08D22QNUVD/meowmeals-1.21)  
-Spent on the mod after adding more versions:  
-![Hackatime Badge](https://hackatime-badge.hackclub.com/U08D22QNUVD/meowmeals)
+
+Spent for the initial mod (1.21): ![Hackatime Badge](https://hackatime-badge.hackclub.com/U08D22QNUVD/meowmeals-1.21)  
+Spent on the mod after adding more versions: ![Hackatime Badge](https://hackatime-badge.hackclub.com/U08D22QNUVD/meowmeals)
+
 ---
 
 ## ðŸ“– Learn More
