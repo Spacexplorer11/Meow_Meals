@@ -68,11 +68,11 @@ java {
 }
 
 tasks.named<Jar>("sourcesJar") {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
 
 tasks.named<Jar>("jar") {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 	from("LICENSE") {
 		rename { "${it}_${base.archivesName}" }
 	}
@@ -84,14 +84,14 @@ tasks.named("processResources") {
 
 tasks.register<Copy>("buildAndCollect") {
 	group = "build"
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 	from(tasks.remapJar.map { it.archiveFile })
 	into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
 	dependsOn("build")
 }
 
 tasks.named<ProcessResources>("processResources") {
-	duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
 	inputs.property("minecraft_version", stonecutter.current.version)
 	inputs.property("version", version)
 	filesMatching("fabric.mod.json") {
