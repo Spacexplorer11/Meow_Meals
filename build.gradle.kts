@@ -110,7 +110,7 @@ publishMods {
 	file = tasks.remapJar.map { it.archiveFile.get() }
 	additionalFiles.from(tasks.named<Jar>("sourcesJar").map { it.archiveFile.get() })
 	type = STABLE
-	displayName = "v${property("mod.version")} for mc ${stonecutter.current.version}"
+	displayName = "Meow Meals v${property("mod.version")} for mc ${stonecutter.current.version}"
 	version = "${property("mod.version")}+${stonecutter.current.version}"
 	changelog = provider { rootProject.file("CHANGELOG.md").readText() }
 	modLoaders.add("fabric")
