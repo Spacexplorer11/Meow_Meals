@@ -5,7 +5,8 @@
 
 [Watch Demo](https://youtu.be/02-HrM9J4-Q)
 
-**Meow Meals** is a lightweight Minecraft mod for **Fabric 1.21(.x) & 26.1(.x)** that adds new custom **cat-only foods**
+**Meow Meals** is a lightweight Minecraft mod for **Fabric 1.21 (.x), 26.1 (.x) & 26.2** that adds new custom **cat-only
+foods**
 to the game!  
 No more boring raw cod, instead pamper your cats with delicious meals crafted just for them. 🐟🥩✨
 
@@ -78,4 +79,4 @@ Or if you prefer, you can download the mod from the latest release [here!](https
 
 Made with ❤️ and too many test worlds.
 
-###### Please change the branch for the <=26.1 code
+###### Please change the branch for the pre-26.1 code
