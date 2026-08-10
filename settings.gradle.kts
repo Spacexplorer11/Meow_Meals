@@ -3,15 +3,15 @@ pluginManagement {
 	repositories {
 		gradlePluginPortal()
 		if (!isCI) {
-			maven("http://raspberrypi.local:8080/Fabric") {
+			maven("http://rpi5.local:8080/Fabric") {
 				name = "Fabric"
 				isAllowInsecureProtocol = true
 			}
-			maven("http://raspberrypi.local:8080/Maven-Central") {
+			maven("http://rpi5.local:8080/Maven-Central") {
 				name = "MavenCentral"
 				isAllowInsecureProtocol = true
 			}
-			maven("http://raspberrypi.local:8080/REI") {
+			maven("http://rpi5.local:8080/REI") {
 				name = "piREI"
 				isAllowInsecureProtocol = true
 			}
@@ -44,14 +44,14 @@ dependencyResolutionManagement {
 			}
 		}
 		if (!isCI) {
-			maven("http://raspberrypi.local:8080/Fabric") {
+			maven("http://rpi5.local:8080/Fabric") {
 				name = "piFabric"
 				isAllowInsecureProtocol = true
 				content {
 					includeGroupByRegex("net\\.fabricmc.*")
 				}
 			}
-			maven("http://raspberrypi.local:8080/REI") {
+			maven("http://rpi5.local:8080/REI") {
 				name = "piREI"
 				isAllowInsecureProtocol = true
 				content {
@@ -59,7 +59,7 @@ dependencyResolutionManagement {
 					includeGroupByRegex("dev\\.architectury.*")
 				}
 			}
-			maven("http://raspberrypi.local:8080/Maven-Central") {
+			maven("http://rpi5.local:8080/Maven-Central") {
 				name = "piMavenCentral"
 				isAllowInsecureProtocol = true
 			}
